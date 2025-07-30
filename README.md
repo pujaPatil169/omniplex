@@ -183,3 +183,21 @@ This project is licensed under the [AGPL-3.0 license](LICENSE).
 If you have any questions or suggestions, feel free to reach out to us at [Contact](https://bishalsaha.com/contact).
 
 Happy coding! 🚀
+
+## Environment Variables Setup
+
+- For local development, the app uses the environment variable `NEXT_PUBLIC_BASE_URL` set to `http://localhost:3000` by default.
+- When deploying to Vercel or any other hosting platform, you should set the `NEXT_PUBLIC_BASE_URL` environment variable in the hosting platform's environment settings to the production URL of your deployed app.
+- This ensures the app uses the correct base URL depending on the environment (development or production).
+
+### Setting Environment Variables on Vercel
+
+1. Go to your project dashboard on [Vercel](https://vercel.com/dashboard).
+2. Select your project.
+3. Navigate to **Settings** > **Environment Variables**.
+4. Add a new environment variable:
+   - Key: `NEXT_PUBLIC_BASE_URL`
+   - Value: Your deployed app URL (e.g., `https://your-app.vercel.app`)
+5. Save the changes and redeploy your app.
+
+This setup allows seamless switching between local development and production environments without changing code.

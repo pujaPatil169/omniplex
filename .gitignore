@@ -35,3 +35,17 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Firebase config file containing secrets
+firebaseConfig.js
+firebaseConfig.ts
+
+# Additional secret files and patterns
+.env.local
+.env.production
+.env.test
+*.key
+*.crt
+*.p12
+.secret
+.credentials

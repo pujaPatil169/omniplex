@@ -28,6 +28,7 @@ import PluginInactive from "../../../public/svgs/sidebar/Plugin_Inactive.svg";
 import User from "../../../public/svgs/sidebar/User.svg";
 import Collapse from "../../../public/svgs/sidebar/Collapse.svg";
 
+
 const Sidebar = () => {
   const router = useRouter();
   const authState = useSelector(selectAuthState);
@@ -38,6 +39,8 @@ const Sidebar = () => {
   const [isClosing, setIsClosing] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(width >= 512);
   const sidebarRef = useRef<HTMLDivElement>(null);
+
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const handleResize = () => setWidth(window.innerWidth);
@@ -96,6 +99,29 @@ const Sidebar = () => {
     } else {
       closeSidebar();
       onOpen();
+    }
+  };
+
+  const handleUpgradeClick = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("/api/payment/stripe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ url: window.location.origin }),
+      });
+      const data = await response.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert("Failed to create checkout session");
+      }
+    } catch (error) {
+      alert("Error initiating payment");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -215,6 +241,23 @@ const Sidebar = () => {
               </div>
             </div>
             <div className={styles.mainContainer}>
+              <button
+                onClick={handleUpgradeClick}
+                disabled={loading}
+                style={{
+                  margin: "1rem",
+                  padding: "0.75rem 1.5rem",
+                  fontSize: "1rem",
+                  fontWeight: "bold",
+                  backgroundColor: "#6772e5",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "4px",
+                  cursor: loading ? "not-allowed" : "pointer",
+                }}
+              >
+                {loading ? "Redirecting..." : "Upgrade to Pro - $10"}
+              </button>
               {selected === "history" ? (
                 <History />
               ) : selected === "library" ? (
